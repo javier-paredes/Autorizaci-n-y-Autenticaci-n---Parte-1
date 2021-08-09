@@ -132,8 +132,9 @@ app.use('/api/mensajes', routerMensajes);
 
 
 // ---------------------------------------------------------------------------------------------
-// LOGIN 
 
+
+// LOGIN 
 app.get('/login', (req, res) => {
     if (req.isAuthenticated()) {
         var user = req.user;
@@ -144,6 +145,10 @@ app.get('/login', (req, res) => {
         console.log('El usuario NO está logueado');
         res.render('vista', { showLogin: true, showContent: false, showBienvenida: false });
     }
+})
+
+app.get('/faillogin', (req, res) => {
+    res.sendFile(__dirname + '/public/failLogin.html')
 })
 
 app.post('/login', passport.authenticate('login', { failureRedirect: '/faillogin' }), (req, res) => {
@@ -167,6 +172,10 @@ app.get('/signup', (req, res) => {
 app.post('/signup', passport.authenticate('signup', { failureRedirect: '/failsignup' }), (req, res) => {
     var user = req.user;
     res.render('vista', { showLogin: false, showContent: true, bienvenida: user.username, showBienvenida: true });
+})
+
+app.get('/failsignup', (req, res) => {
+    res.sendFile(__dirname + '/public/failSignup.html')
 })
 
 
